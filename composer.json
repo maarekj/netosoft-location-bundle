@@ -1,0 +1,36 @@
+{
+  "name": "netosoft/location-bundle",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Joseph Maarek",
+      "email": "josephmaarek@gmail.com"
+    }
+  ],
+  "require": {
+    "doctrine/orm": "^2.10",
+    "doctrine/doctrine-bundle": "^2.4",
+    "symfony/validator": "^5.3",
+    "webmozart/assert": "^1.10",
+    "jmvdevelop/sameas-bundle": "^1.0",
+    "symfony/http-client": "^5.3",
+    "symfony/contracts": "^2.4",
+    "azjezz/psl": "^1.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "Netosoft\\LocationBundle\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Netosoft\\LocationBundle\\Tests\\": "tests"
+    }
+  },
+  "require-dev": {
+    "vimeo/psalm": "^4.10",
+    "phpunit/phpunit": "^9.5",
+    "symfony/cache": "^5.3",
+    "php-standard-library/psalm-plugin": "^1.1"
+  }
+}

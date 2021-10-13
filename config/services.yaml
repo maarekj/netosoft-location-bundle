@@ -1,0 +1,22 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    _instanceof:
+        Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface:
+            public: true
+            autowire: true
+            tags:
+                - { name: 'doctrine.repository_service' }
+
+    Netosoft\LocationBundle\Repository\:
+        resource: '../src/Repository/*Repository.php'
+        public: true
+
+    Netosoft\LocationBundle\Command\:
+        resource: '../src/Command'
+
+    Netosoft\LocationBundle\DataGouvClient\DataGouvClient:
+        arguments:
+            $cache: "@netosoft_location.data_gouv_cache"
