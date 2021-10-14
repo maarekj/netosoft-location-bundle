@@ -32,7 +32,6 @@ class BaseAddress
     private City $city;
 
     #[ManyToOne(targetEntity: District::class)]
-    #[NotNull]
     private ?District $district;
 
     #[Column(type: 'text', nullable: false)]
