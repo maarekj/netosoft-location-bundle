@@ -26,13 +26,18 @@ final class Geometry
         return $this->coordinates;
     }
 
+    public function getPoint(): Point
+    {
+        return new Point(lat: $this->getLat(), lng: $this->getLon());
+    }
+
     public function getLat(): float
     {
-        return $this->coordinates[0];
+        return $this->coordinates[1];
     }
 
     public function getLon(): float
     {
-        return $this->coordinates[1];
+        return $this->coordinates[0];
     }
 }

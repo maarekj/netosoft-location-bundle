@@ -65,7 +65,7 @@ final class AddressObject
 
     public function getStreet(): ?string
     {
-        return $this->street;
+        return '' === $this->street ? null : $this->street;
     }
 
     public function withStreet(string $street): AddressObject
@@ -94,7 +94,7 @@ final class AddressObject
         return $this->zipcode;
     }
 
-    public function setZipcode(string $zipcode): AddressObject
+    public function withZipcode(string $zipcode): AddressObject
     {
         $o = $this->clone();
         $o->zipcode = $zipcode;
@@ -112,7 +112,7 @@ final class AddressObject
         return $this->complement;
     }
 
-    public function setComplement(?string $complement): AddressObject
+    public function withComplement(?string $complement): AddressObject
     {
         $o = $this->clone();
         $o->complement = $complement;
@@ -125,7 +125,7 @@ final class AddressObject
         return $this->lat;
     }
 
-    public function setLat(?float $lat): AddressObject
+    public function withLat(?float $lat): AddressObject
     {
         $o = $this->clone();
         $o->lat = $lat;
@@ -138,7 +138,7 @@ final class AddressObject
         return $this->lng;
     }
 
-    public function setLng(?float $lng): AddressObject
+    public function withLng(?float $lng): AddressObject
     {
         $o = $this->clone();
         $o->lng = $lng;

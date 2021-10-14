@@ -6,7 +6,9 @@ namespace Netosoft\LocationBundle\DataGouvClient;
 
 use Netosoft\LocationBundle\DataGouvClient\Model\Feature;
 use Netosoft\LocationBundle\DataGouvClient\Model\Geometry;
+use Netosoft\LocationBundle\DataGouvClient\Model\Point;
 use Netosoft\LocationBundle\DataGouvClient\Model\Properties;
+use Netosoft\LocationBundle\ValueObject\AddressObject;
 use Psr\Cache\CacheItemInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -91,6 +93,30 @@ final class DataGouvClient
         });
 
         return $this->jsonToFeatureList($json);
+    }
+
+    public function geocode(AddressObject $address): ?Point
+    {
+        $zipcode = \trim($address->getZipcode());
+        $street = $address->getStreet();
+        if (null !== $street) {
+            $q = $street;
+        } else {
+            $q = $zipcode;
+        }
+
+        if ('' === \trim($q)) {
+            return null;
+        }
+
+        $results = $this->search(q: $q, limit: 1, postcode: ($zipcode ? null : $zipcode));
+        $firstResult = \reset($results);
+
+        if (false === $firstResult) {
+            return null;
+        } else {
+            return $firstResult->getGeometry()->getPoint();
+        }
     }
 
     /**
