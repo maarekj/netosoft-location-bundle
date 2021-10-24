@@ -7,7 +7,9 @@ namespace Netosoft\LocationBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Netosoft\LocationBundle\Entity\County;
-use Psl\Type;
+use function Psl\Iter\first;
+use function Psl\Type\object;
+use function Psl\Type\vec;
 
 /** @extends ServiceEntityRepository<County> */
 final class CountyRepository extends ServiceEntityRepository
@@ -26,8 +28,7 @@ final class CountyRepository extends ServiceEntityRepository
             ->andWhere('country.isoCode = :isoCode')
             ->setParameter('isoCode', $countryCode);
 
-        return Type\vec(Type\object(County::class))
-            ->coerce($qb->getQuery()->getResult());
+        return vec(object(County::class))->coerce($qb->getQuery()->getResult());
     }
 
     public function findOneByCode(string $code, ?string $countryCode = null): ?County
@@ -44,7 +45,6 @@ final class CountyRepository extends ServiceEntityRepository
         $qb->setParameter('countryCode', $countryCode);
         $qb->setParameter('code', $code);
 
-        return Type\optional(Type\object(County::class))
-            ->coerce($qb->getQuery()->getSingleResult());
+        return first(vec(object(County::class))->coerce($qb->getQuery()->getResult()));
     }
 }

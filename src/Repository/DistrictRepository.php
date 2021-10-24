@@ -7,8 +7,9 @@ namespace Netosoft\LocationBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Netosoft\LocationBundle\Entity\District;
+use function Psl\Iter\first;
 use function Psl\Type\object;
-use function Psl\Type\optional;
+use function Psl\Type\vec;
 
 /** @extends ServiceEntityRepository<District> */
 final class DistrictRepository extends ServiceEntityRepository
@@ -40,7 +41,6 @@ final class DistrictRepository extends ServiceEntityRepository
         $qb->setParameter('country', $country);
         $qb->setMaxResults(1);
 
-        return optional(object(District::class))
-            ->coerce($qb->getQuery()->getSingleResult());
+        return first(vec(object(District::class))->coerce($qb->getQuery()->getResult()));
     }
 }

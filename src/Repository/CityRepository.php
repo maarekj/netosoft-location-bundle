@@ -7,6 +7,9 @@ namespace Netosoft\LocationBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Netosoft\LocationBundle\Entity\City;
+use function Psl\Iter\first;
+use function Psl\Type\object;
+use function Psl\Type\vec;
 
 /** @extends ServiceEntityRepository<City> */
 final class CityRepository extends ServiceEntityRepository
@@ -37,10 +40,6 @@ final class CityRepository extends ServiceEntityRepository
         $qb->setParameter('country', $country);
         $qb->setMaxResults(1);
 
-        /** @var list<City> $results */
-        $results = $qb->getQuery()->getResult();
-        $result = \reset($results);
-
-        return false === $result ? null : $result;
+        return first(vec(object(City::class))->coerce($qb->getQuery()->getResult()));
     }
 }

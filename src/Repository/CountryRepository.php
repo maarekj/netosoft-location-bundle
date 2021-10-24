@@ -15,4 +15,9 @@ final class CountryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Country::class);
     }
+
+    public function findOneByCode(string $isoCode): ?Country
+    {
+        return $this->findOneBy(['isoCode' => $isoCode]);
+    }
 }
