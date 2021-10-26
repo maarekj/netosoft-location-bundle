@@ -283,11 +283,11 @@ final class LocationFixtureCommand extends Command
                 }
 
                 [$id, $cityId, $slug, $name, $zipcode] = $data;
-
                 $city = $this->cityRepo->find($cityId);
                 Assert::notNull($city);
 
                 $district = $this->districtRepo->find($id);
+
                 if (null === $district) {
                     $id = (int) $id;
                     $district = new District(
@@ -304,7 +304,7 @@ final class LocationFixtureCommand extends Command
                 $district->setSlug($slug);
                 $district->setZipcode($zipcode);
 
-                $manager->persist($city);
+                $manager->persist($district);
 
                 $progress->setMessage(\sprintf('%s (%s)', $name, $zipcode));
                 $progress->advance();
