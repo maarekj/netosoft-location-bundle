@@ -69,6 +69,11 @@ class Region
         $this->prefix = $prefix;
     }
 
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
     public function getPrefixedName(): string
     {
         return $this->prefix.' '.$this->name;
