@@ -31,6 +31,7 @@
     "vimeo/psalm": "^4.10",
     "phpunit/phpunit": "^9.5",
     "symfony/cache": "^5.3",
-    "php-standard-library/psalm-plugin": "^1.1"
+    "php-standard-library/psalm-plugin": "^1.1",
+    "jmvdevelop/graphql-generator": "^2.3"
   }
 }

@@ -33,10 +33,10 @@ final class DataGouvClient
     }
 
     /**
-     * @param string $q Utiliser le paramètre q pour faire une recherche plein texte:
-     * @param int $limit Avec limit on peut contrôler le nombre d’éléments retournés:
-     * @param bool $autocomplete Avec autocomplete on peut désactiver les traitements d’auto-complétion:
-     * @param float|null $lat Avec lat et lon on peut donner une priorité géographique:
+     * @param string                      $q            Utiliser le paramètre q pour faire une recherche plein texte:
+     * @param int                         $limit        Avec limit on peut contrôler le nombre d’éléments retournés:
+     * @param bool                        $autocomplete Avec autocomplete on peut désactiver les traitements d’auto-complétion:
+     * @param float|null                  $lat          Avec lat et lon on peut donner une priorité géographique:
      * @param null|DataGouvClient::TYPE_* $type         Les filtres type, postcode (code Postal) et citycode (code INSEE) permettent de restreindre la recherche:
      *
      * @return list<Feature>
@@ -44,16 +44,15 @@ final class DataGouvClient
      * @see https://adresse.data.gouv.fr/api-doc/adresse
      */
     public function search(
-        string  $q,
-        int     $limit,
-        bool    $autocomplete = true,
-        ?float  $lat = null,
-        ?float  $lon = null,
+        string $q,
+        int $limit,
+        bool $autocomplete = true,
+        ?float $lat = null,
+        ?float $lon = null,
         ?string $type = null,
         ?string $postcode = null,
         ?string $citycode = null,
-    ): array
-    {
+    ): array {
         $qs = [
             'q' => $q,
             'limit' => $limit,
@@ -61,11 +60,11 @@ final class DataGouvClient
         ];
 
         if (null !== $lat) {
-            $qs['lat'] = (string)$lat;
+            $qs['lat'] = (string) $lat;
         }
 
         if (null !== $lon) {
-            $qs['lon'] = (string)$lon;
+            $qs['lon'] = (string) $lon;
         }
 
         if (null !== $type) {
@@ -110,7 +109,7 @@ final class DataGouvClient
             return null;
         }
 
-        $results = $this->search(q: trim($q . ' ' . $zipcode), limit: 1, postcode: $zipcode);
+        $results = $this->search(q: \trim($q.' '.$zipcode), limit: 1, postcode: $zipcode);
         $firstResult = \reset($results);
 
         if (false === $firstResult) {
