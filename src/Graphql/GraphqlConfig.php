@@ -8,6 +8,7 @@ use JmvDevelop\GraphqlGenerator\Schema\Argument;
 use JmvDevelop\GraphqlGenerator\Schema\ObjectField;
 use JmvDevelop\GraphqlGenerator\Schema\ObjectType;
 use JmvDevelop\GraphqlGenerator\Schema\QueryField;
+use JmvDevelop\GraphqlGenerator\Schema\ScalarType;
 use JmvDevelop\GraphqlGenerator\Schema\SchemaDefinition;
 use JmvDevelop\GraphqlGenerator\SchemaGenerator\ObjectField\CallbackObjectFieldGenerator;
 use JmvDevelop\GraphqlGenerator\SchemaGenerator\ObjectField\ObjectFieldGenerator;
@@ -61,6 +62,12 @@ final class GraphqlConfig
         $addPagerType($this->schema, 'Location_PagerRegion', 'Location_Region', Region::class);
         $addPagerType($this->schema, 'Location_PagerCountry', 'Location_Country', Country::class);
 
+        $this->schema->addType(ScalarType::create(name: 'Location_DistrictId', rootType: District::class));
+        $this->schema->addType(ScalarType::create(name: 'Location_CityId', rootType: City::class));
+        $this->schema->addType(ScalarType::create(name: 'Location_RegionId', rootType: Region::class));
+        $this->schema->addType(ScalarType::create(name: 'Location_CountyId', rootType: County::class));
+        $this->schema->addType(ScalarType::create(name: 'Location_CountryId', rootType: Country::class));
+
         $this->schema->addType(ObjectType::create(
             name: 'Location_Address',
             rootType: '\\'.AddressObject::class,
@@ -96,6 +103,7 @@ final class GraphqlConfig
                 ObjectType::field(name: 'name', type: 'String!'),
                 ObjectType::field(name: 'slug', type: 'String!'),
                 ObjectType::field(name: 'zipcode', type: 'String!'),
+                ObjectType::field(name: 'mainZipcode', type: 'String!'),
                 ObjectType::field(name: 'districts', type: '[Location_District!]!', generator: $collectionGetValues),
                 ObjectType::field(name: 'isCounty', type: 'Boolean!', generator: $callMethod()),
             ]

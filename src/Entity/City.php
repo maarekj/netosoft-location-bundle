@@ -90,7 +90,7 @@ class City implements \Stringable
         return \in_array($zipcode, $zipcodes);
     }
 
-    public function getMainZipCode(): string
+    public function getMainZipcode(): string
     {
         return \current($this->getZipcodeAsArray());
     }

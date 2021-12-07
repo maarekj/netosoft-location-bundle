@@ -44,7 +44,7 @@ final class AddressObject
         $this->street = $street;
         $this->city = $city;
         $this->district = $district;
-        $this->zipcode = null === $zipcode ? $city->getMainZipCode() : $zipcode;
+        $this->zipcode = null === $zipcode ? $city->getMainZipcode() : $zipcode;
         $this->complement = $complement;
         $this->lat = $lat;
         $this->lng = $lng;
