@@ -164,6 +164,24 @@ final class GraphqlConfig
             Argument::create(name: 'query', type: 'String!'),
         ]));
 
+        $this->schema->addQueryField(QueryField::create(name: 'location_search_county', type: 'Location_PagerCounty!', args: [
+            Argument::create(name: 'page', type: 'Int!'),
+            Argument::create(name: 'maxPerPage', type: 'Int!'),
+            Argument::create(name: 'query', type: 'String!'),
+        ]));
+
+        $this->schema->addQueryField(QueryField::create(name: 'location_search_region', type: 'Location_PagerRegion!', args: [
+            Argument::create(name: 'page', type: 'Int!'),
+            Argument::create(name: 'maxPerPage', type: 'Int!'),
+            Argument::create(name: 'query', type: 'String!'),
+        ]));
+
+        $this->schema->addQueryField(QueryField::create(name: 'location_search_country', type: 'Location_PagerCountry!', args: [
+            Argument::create(name: 'page', type: 'Int!'),
+            Argument::create(name: 'maxPerPage', type: 'Int!'),
+            Argument::create(name: 'query', type: 'String!'),
+        ]));
+
         $this->addStrictField(
             type: 'Location_District',
             name: 'location_district',
