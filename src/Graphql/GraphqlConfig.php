@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Netosoft\LocationBundle\Graphql;
 
 use JmvDevelop\GraphqlGenerator\Schema\Argument;
+use JmvDevelop\GraphqlGenerator\Schema\InputObjectType;
 use JmvDevelop\GraphqlGenerator\Schema\ObjectField;
 use JmvDevelop\GraphqlGenerator\Schema\ObjectType;
 use JmvDevelop\GraphqlGenerator\Schema\QueryField;
 use JmvDevelop\GraphqlGenerator\Schema\ScalarType;
 use JmvDevelop\GraphqlGenerator\Schema\SchemaDefinition;
+use JmvDevelop\GraphqlGenerator\SchemaGenerator\ObjectField\AbstractObjectFieldGenerator;
 use JmvDevelop\GraphqlGenerator\SchemaGenerator\ObjectField\CallbackObjectFieldGenerator;
 use JmvDevelop\GraphqlGenerator\SchemaGenerator\ObjectField\ObjectFieldGenerator;
 use Netosoft\LocationBundle\Entity\City;
@@ -18,6 +20,8 @@ use Netosoft\LocationBundle\Entity\County;
 use Netosoft\LocationBundle\Entity\District;
 use Netosoft\LocationBundle\Entity\Region;
 use Netosoft\LocationBundle\ValueObject\AddressObject;
+use Netosoft\LocationBundle\ValueObject\BoundingBox;
+use Netosoft\LocationBundle\ValueObject\Coordinate;
 use Nette\PhpGenerator\Method;
 
 final class GraphqlConfig
@@ -54,6 +58,8 @@ final class GraphqlConfig
             });
         };
 
+        $abstract = new AbstractObjectFieldGenerator();
+
         $addPagerType = $this->addPagerType;
         $addPagerType($this->schema, 'Location_PagerAddress', 'Location_Address', AddressObject::class);
         $addPagerType($this->schema, 'Location_PagerDistrict', 'Location_District', District::class);
@@ -69,12 +75,53 @@ final class GraphqlConfig
         $this->schema->addType(ScalarType::create(name: 'Location_CountryId', rootType: Country::class));
 
         $this->schema->addType(ObjectType::create(
+            name: 'Location_Coordinate',
+            rootType: '\\'.Coordinate::class,
+            fields: [
+                ObjectType::field(name: 'lat', type: 'Float!'),
+                ObjectType::field(name: 'lng', type: 'Float!'),
+                ObjectType::field(name: 'geohashMax', type: 'String!', generator: $abstract),
+                ObjectType::field(name: 'geohash', type: 'String!', args: [
+                    Argument::create(name: 'length', type: 'Int'),
+                ]),
+            ],
+        ));
+
+        $this->schema->addType(InputObjectType::create(
+            name: 'Location_Coordinate_Input',
+            fields: [
+                InputObjectType::field(name: 'lat', type: 'Float!'),
+                InputObjectType::field(name: 'lng', type: 'Float!'),
+            ],
+        ));
+
+        $this->schema->addType(ObjectType::create(
+            name: 'Location_BoundingBox',
+            rootType: '\\'.BoundingBox::class,
+            fields: [
+                ObjectType::field(name: 'sw', type: 'Location_Coordinate!'),
+                ObjectType::field(name: 'ne', type: 'Location_Coordinate!'),
+            ],
+        ));
+
+        $this->schema->addType(InputObjectType::create(name: 'Location_Coordinate_Input', fields: [
+            InputObjectType::field(name: 'lat', type: 'Float!'),
+            InputObjectType::field(name: 'lng', type: 'Float!'),
+        ]));
+
+        $this->schema->addType(InputObjectType::create(name: 'Location_BoundingBox_Input', fields: [
+            InputObjectType::field(name: 'sw', type: 'Location_Coordinate_Input!'),
+            InputObjectType::field(name: 'ne', type: 'Location_Coordinate_Input!'),
+        ]));
+
+        $this->schema->addType(ObjectType::create(
             name: 'Location_Address',
             rootType: '\\'.AddressObject::class,
             fields: [
                 ObjectType::field(name: 'street', type: 'String'),
                 ObjectType::field(name: 'lat', type: 'Float'),
                 ObjectType::field(name: 'lng', type: 'Float'),
+                ObjectType::field(name: 'geolocationCoordinate', type: 'Location_Coordinate'),
                 ObjectType::field(name: 'city', type: 'Location_City!'),
                 ObjectType::field(name: 'district', type: 'Location_District'),
                 ObjectType::field(name: 'zipcode', type: 'String!'),

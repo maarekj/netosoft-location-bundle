@@ -12,42 +12,24 @@ use Netosoft\LocationBundle\Entity\District;
 final class AddressObject
 {
     #[SameAs(class: BaseAddress::class)]
-    private ?string $street;
-
-    #[SameAs(class: BaseAddress::class)]
-    private ?float $lat;
-
-    #[SameAs(class: BaseAddress::class)]
-    private ?float $lng;
-
-    #[SameAs(class: BaseAddress::class)]
-    private City $city;
-
-    #[SameAs(class: BaseAddress::class)]
-    private ?District $district;
-
-    #[SameAs(class: BaseAddress::class)]
     private string $zipcode;
 
-    #[SameAs(class: BaseAddress::class)]
-    private ?string $complement;
-
     public function __construct(
-        ?string $street,
-        City $city,
-        ?District $district,
+        #[SameAs(class: BaseAddress::class)]
+        private ?string $street,
+        #[SameAs(class: BaseAddress::class)]
+        private City $city,
+        #[SameAs(class: BaseAddress::class)]
+        private ?District $district,
         ?string $zipcode,
-        ?string $complement,
-        ?float $lat,
-        ?float $lng,
+        #[SameAs(class: BaseAddress::class)]
+        private ?string $complement,
+        #[SameAs(class: BaseAddress::class)]
+        private ?float $lat,
+        #[SameAs(class: BaseAddress::class)]
+        private ?float $lng,
     ) {
-        $this->street = $street;
-        $this->city = $city;
-        $this->district = $district;
         $this->zipcode = null === $zipcode ? $city->getMainZipcode() : $zipcode;
-        $this->complement = $complement;
-        $this->lat = $lat;
-        $this->lng = $lng;
     }
 
     public function clone(): AddressObject
@@ -144,6 +126,31 @@ final class AddressObject
         $o->lng = $lng;
 
         return $o;
+    }
+
+    public function getGeolocationCoordinate(): ?Coordinate
+    {
+        if (null === $this->lat || null === $this->lng) {
+            return null;
+        }
+
+        return new Coordinate(lat: $this->lat, lng: $this->lng);
+    }
+
+    public function withGeolocationCoordinate(?Coordinate $coordinate): AddressObject
+    {
+        $o = $this->clone();
+        if (null === $coordinate) {
+            $o->lat = null;
+            $o->lng = null;
+
+            return $o;
+        } else {
+            $o->lat = $coordinate->getLat();
+            $o->lng = $coordinate->getLng();
+
+            return $o;
+        }
     }
 
     public function getDistrict(): ?District
