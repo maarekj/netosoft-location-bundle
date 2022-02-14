@@ -62,6 +62,11 @@ class Country
         $this->prefix = $prefix;
     }
 
+    public function __toString(): string
+    {
+        return $this->getName();
+    }
+
     public function getPrefixedName(): string
     {
         return $this->prefix.' '.$this->name;
