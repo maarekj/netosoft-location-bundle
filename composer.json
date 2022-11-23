@@ -8,14 +8,14 @@
     }
   ],
   "require": {
-    "doctrine/orm": "^2.10",
-    "doctrine/doctrine-bundle": "^2.4",
-    "symfony/validator": "^5.3",
+    "doctrine/orm": "^2.13",
+    "doctrine/doctrine-bundle": "^2.7",
+    "symfony/validator": "^6.1",
     "webmozart/assert": "^1.10",
-    "jmvdevelop/sameas-bundle": "^1.0",
-    "symfony/http-client": "^5.3",
-    "symfony/contracts": "^2.4",
-    "azjezz/psl": "^1.8"
+    "jmvdevelop/sameas-bundle": "^1.1",
+    "symfony/http-client": "^6.1",
+    "symfony/contracts": "^3.1",
+    "azjezz/psl": "^2.1"
   },
   "autoload": {
     "psr-4": {
@@ -28,10 +28,10 @@
     }
   },
   "require-dev": {
-    "vimeo/psalm": "^4.10",
+    "vimeo/psalm": "^4.30",
     "phpunit/phpunit": "^9.5",
-    "symfony/cache": "^5.3",
-    "php-standard-library/psalm-plugin": "^1.1",
-    "jmvdevelop/graphql-generator": "^2.3"
+    "symfony/cache": "^6.1",
+    "php-standard-library/psalm-plugin": "^2.0",
+    "jmvdevelop/graphql-generator": "^4.0"
   }
 }
